@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/go-kit/kit/endpoint"
-	"github.com/l-vitaly/rmqrpc"
-	pb "github.com/l-vitaly/rmqrpc/proto"
+	"github.com/devimteam/rmqrpc"
+	pb "github.com/devimteam/rmqrpc/proto"
 )
 
 // Client wraps a RMQ RPC connection and provides a method that implements
