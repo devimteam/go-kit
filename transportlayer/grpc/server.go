@@ -4,7 +4,7 @@ import (
 	"context"
 
 	grpctransport "github.com/go-kit/kit/transport/grpc"
-	"github.com/l-vitaly/go-kit/transportlayer"
+	"github.com/devimteam/go-kit/transportlayer"
 )
 
 type ServerOption func(*Server)

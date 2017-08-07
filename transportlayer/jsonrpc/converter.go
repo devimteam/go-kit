@@ -1,6 +1,6 @@
 package jsonrpc
 
-import jsonrpctransport "github.com/l-vitaly/go-kit/transport/jsonrpc"
+import jsonrpctransport "github.com/devimteam/go-kit/transport/jsonrpc"
 
 type EndpointServerConverter struct {
 	EncodeResp jsonrpctransport.EncodeResponseFunc

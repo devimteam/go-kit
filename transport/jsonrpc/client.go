@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/endpoint"
-	"github.com/l-vitaly/jsonrpc/json2"
+	"github.com/devimteam/jsonrpc/json2"
 )
 
 type ClientOption func(*Client)

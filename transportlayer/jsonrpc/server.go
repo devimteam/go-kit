@@ -3,8 +3,8 @@ package jsonrpc
 import (
 	"net/http"
 
-	jsonrpctransport "github.com/l-vitaly/go-kit/transport/jsonrpc"
-	"github.com/l-vitaly/go-kit/transportlayer"
+	jsonrpctransport "github.com/devimteam/go-kit/transport/jsonrpc"
+	"github.com/devimteam/go-kit/transportlayer"
 )
 
 type ServerOption func(*Server)
