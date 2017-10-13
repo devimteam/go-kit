@@ -14,6 +14,7 @@ type Server struct {
 	ctx    context.Context
 	e      endpoint.Endpoint
 	before []RequestFunc
+	after  []ResponseFunc
 	dec    DecodeRequestFunc
 	logger log.Logger
 }
@@ -44,6 +45,12 @@ func ServerBefore(before ...RequestFunc) ServerOption {
 	return func(s *Server) { s.before = before }
 }
 
+// ServerAfter functions are executed on the HTTP response writer after the
+// endpoint is invoked, but before anything is written to the client.
+func ServerAfter(after ...ResponseFunc) ServerOption {
+	return func(s *Server) { s.after = append(s.after, after...) }
+}
+
 func (s Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := s.ctx
 
@@ -51,21 +58,25 @@ func (s Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		ctx = f(ctx, r)
 	}
 
-	req, err := s.dec(ctx, r)
+	request, err := s.dec(ctx, r)
 	if err != nil {
 		s.logger.Log("err", err)
 		s.errorEncoder(ctx, err, w)
 		return
 	}
 
-	p, err := s.e(ctx, req)
+	response, err := s.e(ctx, request)
 	if err != nil {
 		s.logger.Log("err", err)
 		s.errorEncoder(ctx, err, w)
 		return
 	}
 
-	s.encodeResponse(ctx, w, graphql.Do(p.(graphql.Params)))
+	for _, f := range s.after {
+		ctx = f(ctx, w)
+	}
+
+	s.encodeResponse(ctx, w, graphql.Do(response.(graphql.Params)))
 }
 
 func (s Server) errorEncoder(_ context.Context, err error, w http.ResponseWriter) {
