@@ -7,11 +7,11 @@ import (
 	"testing"
 
 	"github.com/go-kit/kit/log"
-	"github.com/l-vitaly/eutils"
+	"github.com/devimteam/eutils"
 	"github.com/devimteam/go-kit/test/pb"
 	"github.com/devimteam/go-kit/transportlayer"
 	transportgrpc "github.com/devimteam/go-kit/transportlayer/grpc"
-	"github.com/l-vitaly/gounit"
+	"github.com/devimteam/gounit"
 	context2 "golang.org/x/net/context"
 	"google.golang.org/grpc"
 )

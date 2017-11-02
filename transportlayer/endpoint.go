@@ -9,7 +9,7 @@ import (
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/metrics"
 	"github.com/go-kit/kit/tracing/opentracing"
-	"github.com/l-vitaly/eutils"
+	"github.com/devimteam/eutils"
 	opentracinggo "github.com/opentracing/opentracing-go"
 )
 
