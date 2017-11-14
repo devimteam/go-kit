@@ -42,7 +42,7 @@ type ServerOption func(*Server)
 // ServerBefore functions are executed on the HTTP request object before the
 // request is decoded.
 func ServerBefore(before ...RequestFunc) ServerOption {
-	return func(s *Server) { s.before = before }
+	return func(s *Server) { s.before = append(s.before, before...) }
 }
 
 // ServerAfter functions are executed on the HTTP response writer after the
