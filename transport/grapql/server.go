@@ -23,12 +23,16 @@ func NewServer(
 	ctx context.Context,
 	e endpoint.Endpoint,
 	dec DecodeRequestFunc,
+	logger log.Logger,
 	options ...ServerOption) *Server {
+	if logger == nil {
+		logger = log.NewNopLogger()
+	}
 	s := &Server{
 		ctx:    ctx,
 		e:      e,
 		dec:    dec,
-		logger: log.NewNopLogger(),
+		logger: logger,
 	}
 
 	for _, option := range options {
@@ -75,8 +79,13 @@ func (s Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	for _, f := range s.after {
 		ctx = f(ctx, w)
 	}
-
-	s.encodeResponse(ctx, w, graphql.Do(response.(graphql.Params)))
+	resp := graphql.Do(response.(graphql.Params))
+	if resp.HasErrors() {
+		for _, e := range resp.Errors {
+			s.logger.Log(e.Message)
+		}
+	}
+	s.encodeResponse(ctx, w, resp)
 }
 
 func (s Server) errorEncoder(_ context.Context, err error, w http.ResponseWriter) {
